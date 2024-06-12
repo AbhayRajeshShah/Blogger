@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 //setup environment
 const dotenv = require("dotenv");
 dotenv.config();
-const PORT = process.env.NODE_ENV || 3000;
+const PORT = process.env.NODE_ENV || 3003;
 
 //import models
 const User = require("./models/User");
@@ -54,7 +54,7 @@ app.post("/signin", async (req, res) => {
     res.status(403).json({ message: "User with this email does not exist" });
   } else {
     if (user.password === password) {
-      res.status(300).json({ message: "SignUp Successful", body: user });
+      res.status(300).json({ message: "Login Successful", body: user });
     } else {
       res.status(403).json({ message: "Email and password do not match" });
     }
@@ -63,14 +63,16 @@ app.post("/signin", async (req, res) => {
 
 //Blog routes
 app.post("/new", async (req, res) => {
-  const { title, body, uid, name } = req.body;
+  const { title, body, uid } = req.body;
   let image = req.body.image || "";
+  let user = await User.findById(uid);
+
   try {
     let blog = new Blog({
       title: title,
       body: body,
       userid: uid,
-      authorName: name,
+      authorName: user.name,
       image: image,
     });
     blog.save();
@@ -103,6 +105,24 @@ app.delete("/delete/:id", async () => {
     res.status(300).json({ message: "Deleted Blog Successfully" });
   } catch (e) {
     res.status(404).json({ message: "Failed to delete", body: e });
+  }
+});
+
+app.get("/getUserBlogs/:id", async (req, res) => {
+  let blogs = await Blog.find({ userid: req.params.id });
+  res.json(blogs);
+});
+
+app.get("/getBlog/:id", async (req, res) => {
+  try {
+    let blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      res.status(404).json({ message: "Blog not Found" });
+    } else {
+      res.status(300).json({ message: "Blog Found!", body: blog });
+    }
+  } catch (e) {
+    res.status(404).json({ message: "Blog not Found" });
   }
 });
 
