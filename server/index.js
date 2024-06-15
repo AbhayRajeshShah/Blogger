@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 //setup environment
 const dotenv = require("dotenv");
 dotenv.config();
-const PORT = process.env.NODE_ENV || 3003;
+const PORT = process.env.PORT || 3003;
 
 //import models
 const User = require("./models/User");
