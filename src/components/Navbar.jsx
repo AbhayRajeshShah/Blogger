@@ -7,7 +7,9 @@ const Navbar = () => {
   return (
     <nav className="md:px-32 sm:px-16 py-8 flex justify-between items-center font-black">
       <div className="text-lg flex-1 justify-start">
-        <p className="font-bold  w-fit m-0">Blogger</p>
+        <p className="font-bold  w-fit m-0">
+          <Link to={"/"}>Blogger</Link>
+        </p>
       </div>
       <div className="flex justify-end items-center gap-[3rem] flex-1 font-normal">
         <Link to={"/"}>Blogs</Link>
@@ -29,7 +31,7 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <Link to={"/profile"}>Profile</Link>
+            <Link to={"/profile/" + uid}>Profile</Link>
             <button
               onClick={() => {
                 cookies.remove("userId", { path: "/" });

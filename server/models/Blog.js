@@ -4,6 +4,7 @@ const BlogSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
+    unique: true,
   },
   body: {
     type: String,
@@ -11,6 +12,10 @@ const BlogSchema = new mongoose.Schema({
   },
   image: {
     type: String,
+  },
+  category: {
+    type: String,
+    required: true,
   },
   authorName: { type: String, required: true },
   date: {
