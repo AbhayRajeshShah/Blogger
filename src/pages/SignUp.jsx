@@ -27,7 +27,7 @@ const SignUp = () => {
     if (status > 300) {
       setFormData({});
     } else {
-      cookies.set("userId", data._id);
+      cookies.set("userId", data.body._id);
       window.location.href = "/";
     }
   };
